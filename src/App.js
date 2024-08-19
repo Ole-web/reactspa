@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Sidebar from "./components/Sidebar";
+import Home from "./pages/Home";
+import AboutPage from "./pages/AboutPage";
+import ItemDetails from "./components/ItemDetails";
+import NotFound from "./components/NotFound";
+import "./styles/App.css"; // Import the App.css file
 
-function App() {
+const App = () => {
+  const [todos, setTodos] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="app">
+        <Navbar />
+        <Sidebar />
+        <main>
+          <Switch>
+            <Route exact path="/">
+              <Home todos={todos} setTodos={setTodos} />
+            </Route>
+            <Route path="/todos/:id">
+              <ItemDetails todos={todos} />
+            </Route>
+            <Route path="/about">
+              <AboutPage />
+            </Route>
+            <Route component={NotFound} />
+          </Switch>
+        </main>
+        <Footer />
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
